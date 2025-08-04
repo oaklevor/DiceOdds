@@ -35,20 +35,24 @@ struct OddsMode: View {
         var stringResponse = ""
         
         let totalRolls = (numberOfDice ?? 1) * (numberOfRolls ?? 1)
-        let targetProbability = 1.0 / 6.0  // assuming you're targeting a specific face like "one"
+        let targetProbability = 1.0 / 6.0
 
         for i in 1...totalRolls {
+            // Probability calculations
             let prob = binomialProbability(n: totalRolls, k: i, p: targetProbability)
-            
-            stringResponse += "You have "
             var percentString = String(format: "%.2f", prob * 100)
             if (percentString == "0.00") {
                 percentString = String(format: "%.4f", prob * 100)
             }
+            if (percentString == "0.0000") {
+                break
+            }
+            
+            // String formatting
+            stringResponse += "You have "
             stringResponse += percentString
             stringResponse += "% chance to roll \(i) "
             stringResponse += convertNumberToWords(number: targetRoll) ?? ""
-            
             if i > 1 {
                 stringResponse += targetRoll == 6 ? "es" : "s"
             }
@@ -68,9 +72,8 @@ struct OddsMode: View {
     
     func convertNumberToWords(number: Int) -> String? {
         let formatter = NumberFormatter()
-        formatter.numberStyle = .spellOut // This style converts numbers to words
+        formatter.numberStyle = .spellOut
         
-        // Attempt to format the number and return the result
         return formatter.string(from: NSNumber(value: number))
     }
 
@@ -113,6 +116,7 @@ struct OddsMode: View {
                     .cornerRadius(8)
                 }
             Text(Odds())
+                .lineLimit(12, reservesSpace: true)
         }
         .padding()
     }
