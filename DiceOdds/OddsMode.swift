@@ -14,7 +14,7 @@ struct OddsMode: View {
     
     func Odds () -> String {
         // error handling
-        if (numDice == "Number of Dice Being Rolled") {
+        if (numDice == "" || numRolls == "" || target == "Target Roll") {
             return "Input Data to try your odds"
         }
         let numberOfDice = Int(numDice)
@@ -49,7 +49,7 @@ struct OddsMode: View {
             }
             
             // String formatting
-            stringResponse += "You have "
+            stringResponse += "You have a "
             stringResponse += percentString
             stringResponse += "% chance to roll \(i) "
             stringResponse += convertNumberToWords(number: targetRoll) ?? ""
@@ -78,47 +78,62 @@ struct OddsMode: View {
     }
 
     var body: some View {
-        VStack {
-            Text("Odds App").font(.largeTitle)
-            Menu {
-                  Button("1", action: { numDice = "1" })
-                  Button("2", action: { numDice = "2" })
-                  Button("3", action: { numDice = "3" })
-                  Button("4", action: { numDice = "4" })
-                  Button("5", action: { numDice = "5" })
-                } label: {
-                  Label("Number of Dice Being Rolled: " + numDice, systemImage: "chevron.down")
-                    .padding()
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(8)
+        ZStack {
+            Color(red: 0.21, green: 0.4, blue: 0.52).ignoresSafeArea()
+            VStack {
+                HStack {
+                    Text("Odds Mode")
+                        .font(.largeTitle)
+                        .foregroundStyle(Color(red: 0.89, green: 0.53, blue: 0.27))
+                    Image(systemName: "dice")
+                        .font(.largeTitle)
+                        .foregroundStyle(Color(red: 0.89, green: 0.53, blue: 0.27))
                 }
-            Menu {
-                  Button("1", action: { numRolls = "1" })
-                  Button("2", action: { numRolls = "2" })
-                  Button("3", action: { numRolls = "3" })
+                Menu {
+                    Button("1", action: { numDice = "1" })
+                    Button("2", action: { numDice = "2" })
+                    Button("3", action: { numDice = "3" })
+                    Button("4", action: { numDice = "4" })
+                    Button("5", action: { numDice = "5" })
                 } label: {
-                  Label("Number of Rolls Left: " + numRolls, systemImage: "chevron.down")
-                    .padding()
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(8)
+                    Label("Number of Dice Being Rolled: " + numDice, systemImage: "chevron.down")
+                        .padding()
+                        .background(Color(red: 0.8, green: 0.8, blue: 0.8).opacity(0.85))
+                        .foregroundStyle(Color(red: 0.78, green: 0.32, blue: 0.0))
+                        .cornerRadius(8)
                 }
-            Menu {
-                Button("1's", action: { target = "1's" })
-                Button("2's", action: { target = "2's" })
-                Button("3's", action: { target = "3's" })
-                Button("4's", action: { target = "4's" })
-                Button("5's", action: { target = "5's" })
-                Button("6's", action: { target = "6's" })
+                Menu {
+                    Button("1", action: { numRolls = "1" })
+                    Button("2", action: { numRolls = "2" })
+                    Button("3", action: { numRolls = "3" })
                 } label: {
-                  Label(target, systemImage: "chevron.down")
-                    .padding()
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(8)
+                    Label("Number of Rolls Left: " + numRolls, systemImage: "chevron.down")
+                        .padding()
+                        .background(Color(red: 0.8, green: 0.8, blue: 0.8).opacity(0.85))
+                        .foregroundStyle(Color(red: 0.78, green: 0.32, blue: 0.0))
+                        .cornerRadius(8)
                 }
-            Text(Odds())
-                .lineLimit(12, reservesSpace: true)
+                Menu {
+                    Button("1's", action: { target = "1's" })
+                    Button("2's", action: { target = "2's" })
+                    Button("3's", action: { target = "3's" })
+                    Button("4's", action: { target = "4's" })
+                    Button("5's", action: { target = "5's" })
+                    Button("6's", action: { target = "6's" })
+                } label: {
+                    Label(target, systemImage: "chevron.down")
+                        .padding()
+                        .background(Color(red: 0.8, green: 0.8, blue: 0.8).opacity(0.85))
+                        .foregroundStyle(Color(red: 0.78, green: 0.32, blue: 0.0))
+                        .cornerRadius(8)
+                }
+                
+                Text(Odds())
+                    .lineLimit(12, reservesSpace: true)
+                    .foregroundStyle(Color(red: 0.8, green: 0.8, blue: 0.8))
+            }
+            .padding()
         }
-        .padding()
     }
 }
 
